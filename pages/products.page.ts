@@ -43,7 +43,22 @@ export class ProductsPage {
         this.productAvailability = page.locator('.product-information p:has-text("Availability:")');
         this.productCondition = page.locator('.product-information p:has-text("Condition:")');
         this.productBrand = page.locator('.product-information p:has-text("Brand:")');
+
+        // Review Locators
+        this.writeReviewHeader = page.locator('a[href="#reviews"]');
+        this.reviewNameInput = page.locator('#name');
+        this.reviewEmailInput = page.locator('#email');
+        this.reviewTextArea = page.locator('#review');
+        this.submitReviewButton = page.locator('#button-review');
+        this.reviewSuccessMsg = page.locator('#review-section .alert-success span, .alert-success').filter({ hasText: 'Thank you for your review.' });
     }
+
+    readonly writeReviewHeader: Locator;
+    readonly reviewNameInput: Locator;
+    readonly reviewEmailInput: Locator;
+    readonly reviewTextArea: Locator;
+    readonly submitReviewButton: Locator;
+    readonly reviewSuccessMsg: Locator;
 
     async clickProducts() {
         await this.productsLink.click();
@@ -96,5 +111,21 @@ export class ProductsPage {
 
     async clickAddToCartDetail() {
         await this.addToCartDetailButton.click();
+    }
+
+    async submitReview(name: string, email: string, review: string) {
+        await this.reviewNameInput.fill(name);
+        await this.reviewEmailInput.fill(email);
+        await this.reviewTextArea.fill(review);
+        
+        // Setup listener for the AJAX response BEFORE clicking
+        const responsePromise = this.page.waitForResponse(response => 
+            response.url().includes('/product_review/') && response.status() === 200
+        );
+        
+        await this.submitReviewButton.click();
+        
+        // Wait for the server to confirm the submission
+        await responsePromise;
     }
 }
