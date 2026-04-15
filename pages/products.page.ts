@@ -9,6 +9,8 @@ export class ProductsPage {
     readonly searchInput: Locator;
     readonly searchButton: Locator;
     readonly searchedProductsHeader: Locator;
+    readonly continueShoppingButton: Locator;
+    readonly viewCartModalLink: Locator;
     
     // Product Details Locators
     readonly productName: Locator;
@@ -27,6 +29,8 @@ export class ProductsPage {
         this.searchInput = page.locator('#search_product');
         this.searchButton = page.locator('#submit_search');
         this.searchedProductsHeader = page.locator('h2.title.text-center:has-text("Searched Products")');
+        this.continueShoppingButton = page.locator('button.btn-success:has-text("Continue Shopping")');
+        this.viewCartModalLink = page.locator('.modal-body a[href="/view_cart"]');
         
         // Detailed Info
         this.productName = page.locator('.product-information h2');
@@ -48,5 +52,25 @@ export class ProductsPage {
     async searchProduct(productName: string) {
         await this.searchInput.fill(productName);
         await this.searchButton.click();
+    }
+
+    async addProductToCart(index: number) {
+        const product = this.productsList.locator('.single-products').nth(index);
+        
+        // Hover to make the overlay visible
+        await product.hover();
+        
+        // Use the button in the overlay as per standard flow, but wait for it to be visible
+        const addToCartButton = product.locator('.product-overlay a.add-to-cart');
+        await addToCartButton.waitFor({ state: 'visible' });
+        await addToCartButton.click();
+    }
+
+    async clickContinueShopping() {
+        await this.continueShoppingButton.click();
+    }
+
+    async clickViewCartModal() {
+        await this.viewCartModalLink.click();
     }
 }

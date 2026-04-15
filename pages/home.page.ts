@@ -11,7 +11,7 @@ export class HomePage {
 
     constructor(page: Page) {
         this.page = page;
-        this.testCasesLink = page.locator('a[href="/test_cases"]'); // Using the href to uniquely identify it
+        this.testCasesLink = page.locator('ul.nav li a[href="/test_cases"]').first(); // Ensure specific to navigation menu and handles strict mode
         this.cartLink = page.locator('ul.nav li a[href="/view_cart"]').first();
         this.subscriptionHeader = page.locator('h2:has-text("Subscription")');
         this.subscriptionEmailInput = page.locator('#susbscribe_email');
