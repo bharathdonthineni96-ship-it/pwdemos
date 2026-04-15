@@ -3,10 +3,14 @@ import { Page, Locator } from '@playwright/test';
 export class CartPage {
     readonly page: Page;
     readonly cartRows: Locator;
+    readonly proceedToCheckoutButton: Locator;
+    readonly registerLoginModalLink: Locator;
 
     constructor(page: Page) {
         this.page = page;
         this.cartRows = page.locator('tr[id^="product-"]');
+        this.proceedToCheckoutButton = page.locator('a.btn.btn-default.check_out');
+        this.registerLoginModalLink = page.locator('.modal-body a[href="/login"]');
     }
 
     async getProductDetails(index: number) {
@@ -26,5 +30,13 @@ export class CartPage {
 
     async getCartCount() {
         return await this.cartRows.count();
+    }
+
+    async clickProceedToCheckout() {
+        await this.proceedToCheckoutButton.click();
+    }
+
+    async clickRegisterLoginModal() {
+        await this.registerLoginModalLink.click();
     }
 }

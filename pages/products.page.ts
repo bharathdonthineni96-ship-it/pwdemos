@@ -60,18 +60,18 @@ export class ProductsPage {
 
     async addProductToCart(index: number) {
         const product = this.productsList.locator('.single-products').nth(index);
+        await product.scrollIntoViewIfNeeded();
         
-        // Hover to make the overlay visible
+        // Hover can be flaky, so we try to click any visible 'Add to cart' button in the container
         await product.hover();
-        
-        // Use the button in the overlay as per standard flow, but wait for it to be visible
-        const addToCartButton = product.locator('.product-overlay a.add-to-cart');
-        await addToCartButton.waitFor({ state: 'visible' });
-        await addToCartButton.click();
+        const addToCart = product.locator('a.add-to-cart').filter({ hasText: 'Add to cart' }).first();
+        await addToCart.click({ force: true });
     }
 
     async clickContinueShopping() {
+        await this.continueShoppingButton.waitFor({ state: 'visible' });
         await this.continueShoppingButton.click();
+        await this.continueShoppingButton.waitFor({ state: 'hidden' });
     }
 
     async clickViewCartModal() {
