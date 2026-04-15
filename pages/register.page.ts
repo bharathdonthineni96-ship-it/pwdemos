@@ -8,6 +8,7 @@ export class RegisterPage {
     readonly nameInput: Locator;
     readonly emailInput: Locator;
     readonly signupButton: Locator;
+    readonly emailExistsMsg: Locator;
 
     // Account Details Locators
     readonly titleMr: Locator;
@@ -47,6 +48,7 @@ export class RegisterPage {
         this.nameInput = page.locator('input[data-qa="signup-name"]');
         this.emailInput = page.locator('input[data-qa="signup-email"]');
         this.signupButton = page.locator('button[data-qa="signup-button"]');
+        this.emailExistsMsg = page.locator('text=Email Address already exist!');
 
         // Detailed Information
         this.titleMr = page.locator('#id_gender1');
