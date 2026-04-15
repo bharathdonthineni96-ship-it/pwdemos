@@ -11,6 +11,8 @@ export class ProductsPage {
     readonly searchedProductsHeader: Locator;
     readonly continueShoppingButton: Locator;
     readonly viewCartModalLink: Locator;
+    readonly quantityInput: Locator;
+    readonly addToCartDetailButton: Locator;
     
     // Product Details Locators
     readonly productName: Locator;
@@ -31,6 +33,8 @@ export class ProductsPage {
         this.searchedProductsHeader = page.locator('h2.title.text-center:has-text("Searched Products")');
         this.continueShoppingButton = page.locator('button.btn-success:has-text("Continue Shopping")');
         this.viewCartModalLink = page.locator('.modal-body a[href="/view_cart"]');
+        this.quantityInput = page.locator('#quantity');
+        this.addToCartDetailButton = page.locator('button.cart');
         
         // Detailed Info
         this.productName = page.locator('.product-information h2');
@@ -72,5 +76,13 @@ export class ProductsPage {
 
     async clickViewCartModal() {
         await this.viewCartModalLink.click();
+    }
+
+    async setQuantity(qty: string) {
+        await this.quantityInput.fill(qty);
+    }
+
+    async clickAddToCartDetail() {
+        await this.addToCartDetailButton.click();
     }
 }
