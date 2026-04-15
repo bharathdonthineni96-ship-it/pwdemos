@@ -3,6 +3,7 @@ import { Page, Locator } from '@playwright/test';
 export class HomePage {
     readonly page: Page;
     readonly testCasesLink: Locator;
+    readonly cartLink: Locator;
     readonly subscriptionHeader: Locator;
     readonly subscriptionEmailInput: Locator;
     readonly subscribeButton: Locator;
@@ -11,6 +12,7 @@ export class HomePage {
     constructor(page: Page) {
         this.page = page;
         this.testCasesLink = page.locator('a[href="/test_cases"]'); // Using the href to uniquely identify it
+        this.cartLink = page.locator('ul.nav li a[href="/view_cart"]').first();
         this.subscriptionHeader = page.locator('h2:has-text("Subscription")');
         this.subscriptionEmailInput = page.locator('#susbscribe_email');
         this.subscribeButton = page.locator('#subscribe');
@@ -23,6 +25,10 @@ export class HomePage {
 
     async clickTestCases() {
         await this.testCasesLink.first().click();
+    }
+
+    async clickCart() {
+        await this.cartLink.click();
     }
 
     async subscribe(email: string) {
