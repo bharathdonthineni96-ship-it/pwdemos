@@ -59,22 +59,31 @@ export class ProductsPage {
     }
 
     async addProductToCart(index: number) {
-        const product = this.productsList.locator('.single-products').nth(index);
-        await product.scrollIntoViewIfNeeded();
+        // Target specifically the static 'productinfo' area WITHIN the unique grid container
+        const productContainer = this.page.locator('.features_items .col-sm-4').nth(index);
+        await productContainer.scrollIntoViewIfNeeded();
         
-        // Hover can be flaky, so we ensure the target is visible and then click.
-        // Using dispatchEvent as a fallback to ensure the click reaches the element even if slightly obscured.
-        await product.hover();
-        const addToCart = product.locator('a.add-to-cart').filter({ hasText: 'Add to cart' }).first();
+        const addToCart = productContainer.locator('.productinfo a.add-to-cart');
         await addToCart.waitFor({ state: 'visible', timeout: 5000 });
-        await addToCart.dispatchEvent('click'); 
+        
+        // Setup listener for the AJAX response BEFORE clicking
+        const responsePromise = this.page.waitForResponse(response => 
+            response.url().includes('/add_to_cart') && response.status() === 200
+        );
+        
+        await addToCart.click({ force: true }); 
+        
+        // Wait for the server to confirm the addition
+        await responsePromise;
     }
 
     async clickContinueShopping() {
         await this.continueShoppingButton.waitFor({ state: 'visible' });
         await this.continueShoppingButton.click();
-        // Ensure the modal is gone before proceeding
+        // Ensure the modal and BACKDROP are gone before proceeding
         await this.page.locator('.modal-content').waitFor({ state: 'hidden' });
+        await this.page.locator('.modal-backdrop').waitFor({ state: 'hidden' });
+        await this.page.waitForTimeout(1000); // Increased safety buffer for session state syncing
     }
 
     async clickViewCartModal() {
