@@ -6,6 +6,9 @@ export class ProductsPage {
     readonly allProductsHeader: Locator;
     readonly productsList: Locator;
     readonly firstProductViewLink: Locator;
+    readonly searchInput: Locator;
+    readonly searchButton: Locator;
+    readonly searchedProductsHeader: Locator;
     
     // Product Details Locators
     readonly productName: Locator;
@@ -21,6 +24,9 @@ export class ProductsPage {
         this.allProductsHeader = page.locator('h2.title.text-center:has-text("All Products")');
         this.productsList = page.locator('.features_items');
         this.firstProductViewLink = page.locator('.choose ul li a').first();
+        this.searchInput = page.locator('#search_product');
+        this.searchButton = page.locator('#submit_search');
+        this.searchedProductsHeader = page.locator('h2.title.text-center:has-text("Searched Products")');
         
         // Detailed Info
         this.productName = page.locator('.product-information h2');
@@ -37,5 +43,10 @@ export class ProductsPage {
 
     async viewFirstProduct() {
         await this.firstProductViewLink.click();
+    }
+
+    async searchProduct(productName: string) {
+        await this.searchInput.fill(productName);
+        await this.searchButton.click();
     }
 }
