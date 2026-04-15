@@ -37,6 +37,7 @@ export class RegisterPage {
     readonly loggedInAsMsg: Locator;
     readonly deleteAccountBtn: Locator;
     readonly accountDeletedMsg: Locator;
+    readonly logoutLink: Locator;
 
     constructor(page: Page) {
         this.page = page;
@@ -74,6 +75,7 @@ export class RegisterPage {
         this.loggedInAsMsg = page.locator('text=Logged in as'); 
         this.deleteAccountBtn = page.locator('a[href="/delete_account"]');
         this.accountDeletedMsg = page.locator('h2[data-qa="account-deleted"]');
+        this.logoutLink = page.locator('a[href="/logout"]');
     }
 
     async navigate() {
@@ -128,5 +130,9 @@ export class RegisterPage {
     
     async clickDeleteAccount() {
         await this.deleteAccountBtn.click();
+    }
+
+    async clickLogout() {
+        await this.logoutLink.click();
     }
 }
