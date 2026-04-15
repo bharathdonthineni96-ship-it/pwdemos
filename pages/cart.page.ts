@@ -39,4 +39,12 @@ export class CartPage {
     async clickRegisterLoginModal() {
         await this.registerLoginModalLink.click();
     }
+
+    async removeProduct(index: number) {
+        const row = this.cartRows.nth(index);
+        const deleteButton = row.locator('a.cart_quantity_delete');
+        await deleteButton.click();
+        // The deletion is often asynchronous in the UI, wait for the row to disappear or for page to settle
+        await row.waitFor({ state: 'detached' });
+    }
 }
