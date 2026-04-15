@@ -62,16 +62,19 @@ export class ProductsPage {
         const product = this.productsList.locator('.single-products').nth(index);
         await product.scrollIntoViewIfNeeded();
         
-        // Hover can be flaky, so we try to click any visible 'Add to cart' button in the container
+        // Hover can be flaky, so we ensure the target is visible and then click.
+        // Using dispatchEvent as a fallback to ensure the click reaches the element even if slightly obscured.
         await product.hover();
         const addToCart = product.locator('a.add-to-cart').filter({ hasText: 'Add to cart' }).first();
-        await addToCart.click({ force: true });
+        await addToCart.waitFor({ state: 'visible', timeout: 5000 });
+        await addToCart.dispatchEvent('click'); 
     }
 
     async clickContinueShopping() {
         await this.continueShoppingButton.waitFor({ state: 'visible' });
         await this.continueShoppingButton.click();
-        await this.continueShoppingButton.waitFor({ state: 'hidden' });
+        // Ensure the modal is gone before proceeding
+        await this.page.locator('.modal-content').waitFor({ state: 'hidden' });
     }
 
     async clickViewCartModal() {
