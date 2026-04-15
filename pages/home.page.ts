@@ -25,7 +25,18 @@ export class HomePage {
         this.deleteAccountLink = page.locator('a[href="/delete_account"]');
         this.logoutLink = page.locator('a[href="/logout"]');
         this.loginLink = page.locator('a[href="/login"]');
+        this.productsLink = page.locator('a[href="/products"]');
+
+        // Recommended Items
+        this.recommendedItemsHeader = page.locator('.recommended_items h2:has-text("recommended items")');
+        this.recommendedAddToCartButtons = page.locator('.recommended_items a.add-to-cart');
+        this.viewCartModalLink = page.locator('.modal-body a[href="/view_cart"]');
     }
+
+    readonly productsLink: Locator;
+    readonly recommendedItemsHeader: Locator;
+    readonly recommendedAddToCartButtons: Locator;
+    readonly viewCartModalLink: Locator;
 
     async navigate() {
         await this.page.goto('/');
@@ -54,5 +65,23 @@ export class HomePage {
 
     async clickLogout() {
         await this.logoutLink.click();
+    }
+
+    async clickProducts() {
+        await this.productsLink.click();
+    }
+
+    async addRecommendedProductToCart(index: number) {
+        // Ensure the header is visible first so we are at the bottom
+        await this.recommendedItemsHeader.scrollIntoViewIfNeeded();
+        
+        const button = this.recommendedAddToCartButtons.nth(index);
+        await button.waitFor({ state: 'visible' });
+        await button.click();
+    }
+
+    async clickViewCartModal() {
+        await this.viewCartModalLink.waitFor({ state: 'visible' });
+        await this.viewCartModalLink.click();
     }
 }
