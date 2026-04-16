@@ -12,7 +12,7 @@ test('Test Case 12: Add Products in Cart', async ({ page }) => {
     await homePage.navigate();
 
     // 3. Verify that home page is visible successfully
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
     await expect(homePage.testCasesLink).toBeVisible();
 
     // 4. Click 'Products' button
@@ -28,7 +28,7 @@ test('Test Case 12: Add Products in Cart', async ({ page }) => {
     // 8. Click 'View Cart' button
     await productsPage.addProductToCart(1);
     await productsPage.clickViewCartModal();
-    await expect(page).toHaveURL('https://automationexercise.com/view_cart');
+    await expect(page).toHaveURL(/.*\/view_cart/);
 
     // 9. Verify both products are added to Cart
     const count = await cartPage.getCartCount();

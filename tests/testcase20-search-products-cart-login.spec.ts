@@ -43,17 +43,18 @@ test('Test Case 20: Search Products and Verify Cart After Login', async ({ page 
 
     // 1. Launch browser & 2. Navigate to url 'http://automationexercise.com'
     await homePage.navigate();
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
 
     // 3. Click on 'Products' button
     await homePage.clickProducts();
 
     // 4. Verify user is navigated to ALL PRODUCTS page successfully
-    await expect(page).toHaveURL(/.*products/);
+    await expect(page).toHaveURL(/.*\/products/);
     await expect(productsPage.allProductsHeader).toBeVisible();
 
     // 5. Enter product name in search input and click search button
     await productsPage.searchProduct('Blue');
-    await page.waitForLoadState('networkidle');
+    await productsPage.searchedProductsHeader.waitFor({ state: 'visible', timeout: 15000 });
 
     // 6. Verify 'SEARCHED PRODUCTS' is visible
     await expect(productsPage.searchedProductsHeader).toBeVisible();
@@ -72,14 +73,14 @@ test('Test Case 20: Search Products and Verify Cart After Login', async ({ page 
 
     // 9. Click 'Cart' button and verify that products are visible in cart
     await homePage.clickCart();
-    await expect(page).toHaveURL(/.*view_cart/);
+    await expect(page).toHaveURL(/.*\/view_cart/);
     const cartCountBefore = await cartPage.getCartCount();
     expect(cartCountBefore).toBe(productsToAdd);
 
     // 10. Click 'Signup / Login' button and submit login details
     await homePage.clickLogin();
     await loginPage.login(userDetails.email, userDetails.password);
-    await page.waitForLoadState('networkidle');
+    await homePage.loggedInAsText.waitFor({ state: 'visible', timeout: 15000 });
 
     // 11. Again, go to Cart page
     await homePage.clickCart();

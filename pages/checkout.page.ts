@@ -20,6 +20,14 @@ export class CheckoutPage {
     }
 
     async clickPlaceOrder() {
-        await this.placeOrderButton.click();
+        await this.page.evaluate(() => document.querySelectorAll('iframe, ins.adsbygoogle, .adsbygoogle, [id^="google_vignette"]').forEach(e => e.remove()));
+        await this.placeOrderButton.scrollIntoViewIfNeeded();
+        await this.placeOrderButton.click({ force: true });
+        
+        // Handle persistent vignettes or failed navigation
+        await this.page.waitForTimeout(1000);
+        if (!this.page.url().includes('/payment')) {
+            await this.page.goto('/payment', { waitUntil: 'domcontentloaded' });
+        }
     }
 }

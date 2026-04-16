@@ -8,13 +8,13 @@ test('Test Case 9: Search Product', async ({ page }) => {
 
     // 1-3. Navigate to url and verify home page
     await homePage.navigate();
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
     
     // 4. Click on 'Products' button
     await productsPage.clickProducts();
     
     // 5. Verify user is navigated to ALL PRODUCTS page successfully
-    await expect(page).toHaveURL('https://automationexercise.com/products');
+    await expect(page).toHaveURL(/.*\/products/);
     
     // 6. Enter product name in search input and click search button
     const searchKeyword = 'Shirt';

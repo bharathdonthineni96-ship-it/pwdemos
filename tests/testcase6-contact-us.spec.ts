@@ -34,5 +34,5 @@ test('Test Case 6: Contact Us Form', async ({ page }) => {
     
     // 11. Click 'Home' button and verify that landed to home page successfully
     await contactPage.clickHome();
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
 });

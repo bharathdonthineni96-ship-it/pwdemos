@@ -85,7 +85,9 @@ export class RegisterPage {
     }
 
     async clickSignupLogin() {
-        await this.signupLoginLink.click();
+        await this.page.evaluate(() => document.querySelectorAll('iframe, ins.adsbygoogle, .adsbygoogle').forEach(e => e.remove()));
+        await this.signupLoginLink.scrollIntoViewIfNeeded();
+        await this.signupLoginLink.click({ force: true });
     }
 
     async fillSignupDetails(name: string, email: string) {
@@ -127,7 +129,8 @@ export class RegisterPage {
     }
     
     async clickContinue() {
-        await this.continueBtn.click();
+        await this.continueBtn.waitFor({ state: 'visible', timeout: 10000 });
+        await this.continueBtn.click({ force: true });
     }
     
     async clickDeleteAccount() {

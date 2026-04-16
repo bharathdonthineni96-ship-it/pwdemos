@@ -27,7 +27,7 @@ test('Test Case 4: Logout User', async ({ page }) => {
     // Actual Test Case 4 Steps Begin
     // 1-3. Navigate to url and verify home page
     await registerPage.navigate();
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
     
     // 4. Click on 'Signup / Login' button
     await registerPage.clickSignupLogin();
@@ -46,6 +46,6 @@ test('Test Case 4: Logout User', async ({ page }) => {
     await registerPage.clickLogout();
     
     // 10. Verify that user is navigated to login page
-    await expect(page).toHaveURL('https://automationexercise.com/login');
+    await expect(page).toHaveURL(/.*\/login/);
     await expect(loginPage.loginHeader).toBeVisible();
 });

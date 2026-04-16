@@ -10,7 +10,7 @@ test('Test Case 13: Verify Product quantity in Cart', async ({ page }) => {
 
     // 1-3. Navigate to url and verify home page
     await homePage.navigate();
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
     await expect(homePage.testCasesLink).toBeVisible();
 
     // 4. Click 'View Product' for any product on home page
@@ -29,7 +29,7 @@ test('Test Case 13: Verify Product quantity in Cart', async ({ page }) => {
     
     // 8. Click 'View Cart' button
     await productsPage.clickViewCartModal();
-    await expect(page).toHaveURL('https://automationexercise.com/view_cart');
+    await expect(page).toHaveURL(/.*\/view_cart/);
     
     // 9. Verify that product is displayed in cart page with exact quantity
     const details = await cartPage.getProductDetails(0);

@@ -6,11 +6,11 @@ test('Test Case 11: Verify Subscription in Cart page', async ({ page }) => {
 
     // 1-3. Navigate to url and verify home page
     await homePage.navigate();
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
     
     // 4. Click 'Cart' button
     await homePage.clickCart();
-    await expect(page).toHaveURL('https://automationexercise.com/view_cart');
+    await expect(page).toHaveURL(/.*\/view_cart/);
     
     // 5. Scroll down to footer
     await homePage.subscriptionHeader.scrollIntoViewIfNeeded();

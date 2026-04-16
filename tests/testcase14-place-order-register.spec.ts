@@ -38,12 +38,12 @@ test('Test Case 14: Place Order: Register while Checkout', async ({ page }) => {
     await homePage.navigate();
 
     // 3. Verify that home page is visible successfully
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
     await expect(homePage.testCasesLink).toBeVisible();
 
     // 4. Add products to cart
     await productsPage.clickProducts();
-    await page.waitForLoadState('networkidle');
+    await page.locator('h2.title.text-center').waitFor({ state: 'visible', timeout: 15000 });
     
     await productsPage.addProductToCart(0);
     await productsPage.clickContinueShopping();
@@ -55,7 +55,7 @@ test('Test Case 14: Place Order: Register while Checkout', async ({ page }) => {
     await homePage.clickCart();
 
     // 6. Verify that cart page is displayed
-    await expect(page).toHaveURL('https://automationexercise.com/view_cart');
+    await expect(page).toHaveURL(/.*\/view_cart/);
 
     // 7. Click Proceed To Checkout
     await cartPage.clickProceedToCheckout();

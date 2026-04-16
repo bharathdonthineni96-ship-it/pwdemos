@@ -16,6 +16,7 @@ export class BrandPage {
     async clickBrand(brandName: string) {
         // Use filter to find the brand link by text
         const brandLink = this.brandLinks.filter({ hasText: brandName }).first();
-        await brandLink.click();
+        await brandLink.scrollIntoViewIfNeeded();
+        await brandLink.click({ force: true });
     }
 }

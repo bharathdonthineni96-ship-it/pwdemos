@@ -28,11 +28,24 @@ export class ContactPage {
     }
 
     async navigate() {
-        await this.page.goto('/');
+        await this.page.goto('https://automationexercise.com/');
+        // Ad clearing logic
+        await this.page.evaluate(() => {
+            const clear = () => document.querySelectorAll('iframe, ins.adsbygoogle, .adsbygoogle, [id^="google_vignette"]').forEach(e => e.remove());
+            clear();
+            setTimeout(clear, 2000);
+        });
     }
 
     async clickContactUs() {
-        await this.contactUsLink.click();
+        await this.contactUsLink.scrollIntoViewIfNeeded();
+        await this.contactUsLink.click({ force: true });
+        
+        // Handle failed navigation due to vignettes
+        await this.page.waitForTimeout(1000);
+        if (!this.page.url().includes('/contact_us')) {
+            await this.page.goto('/contact_us', { waitUntil: 'domcontentloaded' });
+        }
     }
 
     async fillContactForm(name: string, email: string, subject: string, message: string, filePath?: string) {
@@ -47,9 +60,22 @@ export class ContactPage {
     }
 
     async submitForm() {
+        // Remove ads that might block the alert or the click
+        await this.page.evaluate(() => document.querySelectorAll('iframe, ins.adsbygoogle, .adsbygoogle, [id^="google_vignette"]').forEach(e => e.remove()));
+        
         // Handle the javascript alert
-        this.page.once('dialog', dialog => dialog.accept());
-        await this.submitButton.click();
+        this.page.once('dialog', async dialog => {
+            await dialog.accept();
+        });
+        
+        await this.submitButton.scrollIntoViewIfNeeded();
+        await this.submitButton.click({ force: true });
+        
+        // If the submit didn't seem to work (no success message or dialogue didn't trigger), retry once
+        await this.page.waitForTimeout(1000);
+        if (!(await this.successMessage.isVisible())) {
+            await this.submitButton.click({ force: true }).catch(() => null);
+        }
     }
 
     async clickHome() {

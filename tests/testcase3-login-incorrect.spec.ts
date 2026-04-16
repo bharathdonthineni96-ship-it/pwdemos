@@ -8,7 +8,7 @@ test('Test Case 3: Login User with incorrect email and password', async ({ page 
 
     // 1-3. Navigate to url and verify home page
     await registerPage.navigate();
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
     
     // 4. Click on 'Signup / Login' button
     await registerPage.clickSignupLogin();

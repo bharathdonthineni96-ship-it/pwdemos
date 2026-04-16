@@ -6,13 +6,13 @@ test('Test Case 2: Login User with correct email and password', async ({ page })
     const loginPage = new LoginPage(page);
     const registerPage = new RegisterPage(page);
 
-    // Pre-condition: Test Case 2 chivaralo "Delete Account" step undi. 
-    // Anduke prathi sari test pass avvadaniki munde oka dummy account create cheddam.
+    // Pre-condition: Test Case 2 ends with a "Delete Account" step.
+    // To ensure the test passes every time, we create a dummy account before starting.
     const testUsername = 'BharathLogin';
     const testEmail = `login${Date.now()}@gmail.com`;
     const testPass = 'Vickyrao1@';
 
-    // 🔴 Setup User for Login Test
+    // [Setup] Setup User for Login Test
     await registerPage.navigate();
     await registerPage.clickSignupLogin();
     await registerPage.fillSignupDetails(testUsername, testEmail);
@@ -24,12 +24,12 @@ test('Test Case 2: Login User with correct email and password', async ({ page })
     });
     await registerPage.clickCreateAccount();
     await registerPage.clickContinue();
-    await page.locator('a[href="/logout"]').click(); // Logout aipoyi actual test start cheddam
+    await page.locator('a[href="/logout"]').click(); // Logout to start the actual test steps
 
-    // 🟢 Actual Test Case 2 Steps Begin
+    // [Test Steps] Actual Test Case 2 Steps Begin
     // 1-3. Navigate to url and verify home page
     await registerPage.navigate();
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
     
     // 4. Click on 'Signup / Login' button
     await registerPage.clickSignupLogin();

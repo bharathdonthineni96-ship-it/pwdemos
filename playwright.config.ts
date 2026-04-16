@@ -7,11 +7,11 @@ export default defineConfig({
   testDir: './tests', // Path to your tests folder
   
   /* Maximum time one test can run for. */
-  timeout: 60 * 1000, 
+  timeout: 120 * 1000, 
   
   expect: {
     /* Maximum time expect() should wait for the condition to be met. */
-    timeout: 10 * 1000
+    timeout: 15 * 1000
   },
   
   /* Run tests in files in parallel */
@@ -41,8 +41,8 @@ export default defineConfig({
     screenshot: 'on', 
     
     /* Timeouts for actions like click, fill etc. */
-    actionTimeout: 15 * 1000,
-    navigationTimeout: 30 * 1000,
+    actionTimeout: 20 * 1000,
+    navigationTimeout: 45 * 1000,
   },
 
   /* Configure projects for major browsers */

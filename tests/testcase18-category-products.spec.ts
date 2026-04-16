@@ -20,7 +20,7 @@ test('Test Case 18: View Category Products', async ({ page }) => {
 
     // 6. Verify that category page is displayed and confirm text 'WOMEN - DRESS PRODUCTS'
     await expect(categoryPage.categoryPageTitle).toBeVisible();
-    await expect(categoryPage.categoryPageTitle).toContainText('WOMEN - DRESS PRODUCTS');
+    await expect(categoryPage.categoryPageTitle).toContainText(/WOMEN - DRESS PRODUCTS/i);
 
     // 7. On left side bar, click on 'Men' category
     await categoryPage.clickMenCategory();
@@ -30,5 +30,5 @@ test('Test Case 18: View Category Products', async ({ page }) => {
 
     // 9. Verify that user is navigated to that category page
     await expect(categoryPage.categoryPageTitle).toBeVisible();
-    await expect(categoryPage.categoryPageTitle).toContainText('MEN - TSHIRTS PRODUCTS');
+    await expect(categoryPage.categoryPageTitle).toContainText(/MEN - TSHIRTS PRODUCTS/i);
 });

@@ -13,7 +13,7 @@ test('Test Case 21: Add Review on Product', async ({ page }) => {
     await homePage.clickProducts();
 
     // 4. Verify user is navigated to ALL PRODUCTS page successfully
-    await expect(page).toHaveURL(/.*products/);
+    await expect(page).toHaveURL(/.*\/products/);
     await expect(productsPage.allProductsHeader).toBeVisible();
 
     // 5. Click on 'View Product' button

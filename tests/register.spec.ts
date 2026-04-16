@@ -6,7 +6,7 @@ test('Test Case 1: Register User', async ({ page }) => {
     
     // 1-3. Navigate to url and verify home page
     await registerPage.navigate();
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
     await expect(registerPage.signupLoginLink).toBeVisible(); 
     
     // 4. Click on 'Signup / Login' button

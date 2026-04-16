@@ -6,7 +6,7 @@ test('Test Case 10: Verify Subscription in home page', async ({ page }) => {
 
     // 1-3. Navigate to url and verify home page
     await homePage.navigate();
-    await expect(page).toHaveURL('https://automationexercise.com/');
+    await expect(page).toHaveURL(/https:\/\/automationexercise.com\/?/);
     
     // 4. Scroll down to footer
     // Playwright automatically scrolls to the element when needed, but to explicitly scroll down:

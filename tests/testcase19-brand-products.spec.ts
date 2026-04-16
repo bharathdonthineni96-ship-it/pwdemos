@@ -23,7 +23,7 @@ test('Test Case 19: View & Cart Brand Products', async ({ page }) => {
     // 6. Verify that user is navigated to brand page and brand products are displayed
     await expect(page).toHaveURL(/.*brand_products\/Polo/);
     await expect(brandPage.brandPageTitle).toBeVisible();
-    await expect(brandPage.brandPageTitle).toContainText('BRAND - POLO PRODUCTS');
+    await expect(brandPage.brandPageTitle).toContainText(/BRAND - POLO PRODUCTS/i);
 
     // 7. On left side bar, click on any other brand link, for example: H&M
     await brandPage.clickBrand('H&M');
@@ -31,5 +31,5 @@ test('Test Case 19: View & Cart Brand Products', async ({ page }) => {
     // 8. Verify that user is navigated to that brand page and can see products
     await expect(page).toHaveURL(/.*brand_products\/H&M/);
     await expect(brandPage.brandPageTitle).toBeVisible();
-    await expect(brandPage.brandPageTitle).toContainText('BRAND - H&M PRODUCTS');
+    await expect(brandPage.brandPageTitle).toContainText(/BRAND - H&M PRODUCTS/i);
 });

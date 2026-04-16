@@ -25,7 +25,8 @@ export class CategoryPage {
 
     async clickSubCategory(parentIndex: number, subCategoryName: string) {
         // parentIndex: 0 for Women, 1 for Men, etc. (based on accordion order)
-        const subCategory = this.page.locator('.panel-body ul li a').filter({ hasText: subCategoryName });
+        const panel = this.page.locator('.panel-group .panel').nth(parentIndex);
+        const subCategory = panel.locator('.panel-body ul li a').filter({ hasText: subCategoryName }).first();
         await subCategory.click();
     }
 }
